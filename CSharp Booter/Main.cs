@@ -29,6 +29,7 @@ namespace CSharp_Booter
 
                 driver = new ChromeDriver( driverService );
             } catch( DriverServiceNotFoundException e ) {
+                Program.formInstance.setAction( e.Message );
                 MessageBox.Show( "You need ChromeDriver to run this program!" );
                 return false;
             }
